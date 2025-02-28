@@ -1,0 +1,91 @@
+### Get Service document
+http://localhost:4004/odata/v4/CatalogService
+
+
+### Get Service metadata
+http://localhost:4004/odata/v4/CatalogService/$metadata
+
+
+### Get Employee Data
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+
+### Get V2 Response
+http://localhost:4004/odata/v2/CatalogService/EmployeeSet
+
+
+###Get Sigle Employee Data : TODO: take an id from last call and paste at end
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/02BD2137-0890-1EEA-A6C2-BB55C19847FB
+
+### Post Call to Add a new line item in Employees
+POST http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+Content-Type: application/json
+
+{
+     "nameFirst": "Thalapathy",
+      "nameMiddle": null,
+      "nameLast": "Vijay",
+      "nameInitials": null,
+      "sex": "M",
+      "language": "T",
+      "phoneNumber": null,
+      "email": "thalapathy@tvk.in.com",
+      "loginName": "VIJAYTVK",
+      "Currency_code": "INR",
+      "salaryAmount": 10000098,
+      "accountNumber": "111222333",
+      "bankId": "510000655",
+      "bankName": "Canara Bank"
+}
+
+### Update the created Record using it's ID
+PATCH http://localhost:4004/odata/v4/CatalogService/EmployeeSet/baf61ca2-11d3-43f4-b1e8-d68c2999037a
+Content-Type: application/json
+
+{
+     "language": "E",
+     "email": "thalapathyvijay@tvk.in.com"
+     
+}
+
+### Get the created/updated data first using it's ID
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/ec3dae84-7823-4808-9667-2440ae08753a
+### Then Delete it using it's ID
+DELETE http://localhost:4004/odata/v4/CatalogService/EmployeeSet/ed2788a6-9edd-4dcc-a05e-f25a4a706cd2
+
+### Getting Data chunk by chunk - Pagination (Using $top, $skip)
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$top=4&$skip=1
+
+### Filter Data
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=nameFirst eq 'Thalapathy'
+
+### Pattern Search - contains
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=contains(nameFirst,'Su')
+
+###Count the records - 34 total
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/$count
+
+### New entity from CDS Views - POs
+### Get All the Purchase orders
+http://localhost:4004/odata/v4/CatalogService/POs/
+
+### Get Single the Purchase order and CDS data for Items 
+http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC28052?$expand=Items
+
+### New entity from CDS Views - ProductView
+###Get CDS data for Product using expand property of Items (aliased by To_Items for products)
+http://localhost:4004/odata/v4/CatalogService/ProductView/74867AD200E41EDBA5D8B06B26EB4052?$expand=To_Items
+
+### Action: Using Action (POST) called boost() to increase a particular value in POs entitySet.
+POST http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC28052/boost
+Content-Type: application/json
+
+{}
+
+### Check whether it is increased
+GET http://localhost:4004/odata/v4/CatalogService/POs/74867AD200E41EDBA5D8B0C98DC28052
+
+### Function: Calling a function which is defined in CatalogService.cds & Implemented in CatalogService.js
+http://localhost:4004/odata/v4/CatalogService/getLargestOrder()
+
+### Testing Service call for Debug session
+http://localhost:4004/odata/v4/MyService/ReadEmployeeSrv
