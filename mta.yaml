@@ -26,7 +26,24 @@ modules:
     requires:
       - name: mycapapp-db
       - name: mycapapp-auth
-
+    
+  - name: mycapapp-ui
+    type: nodejs
+    path: app
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    requires:
+      - name: srv-api # Provided by mycapapp-srv
+        group: destinations # maintained as destination in xs-app.json
+        properties:
+          name: srv-api
+          strictSSL: true
+          forwardAuthToken: true
+          url: '~{srv-url}' # Provided by mycapapp-srv properties
+      - name: mycapapp-auth
   - name: mycapapp-db-deployer
     type: hdb
     path: gen/db
